@@ -86,44 +86,38 @@ export async function generateSummary(
 
 export async function sendMessageInChunks(
     channel: TextChannel,
-    content: string,
-    inReplyTo: string,
-    files: any[]
+    text: string,
+    replyTo?: string,
+    files?: string[]
 ): Promise<DiscordMessage[]> {
-    const sentMessages: DiscordMessage[] = [];
-    const messages = splitMessage(content);
-    try {
-        for (let i = 0; i < messages.length; i++) {
-            const message = messages[i];
-            if (
-                message.trim().length > 0 ||
-                (i === messages.length - 1 && files && files.length > 0)
-            ) {
-                const options: any = {
-                    content: message.trim(),
-                };
+    const messages = [];
+    const chunks = splitMessage(text);
 
-                // if (i === 0 && inReplyTo) {
-                //   // Reply to the specified message for the first chunk
-                //   options.reply = {
-                //     messageReference: inReplyTo,
-                //   };
-                // }
+    for (let i = 0; i < chunks.length; i++) {
+        const isLastChunk = i === chunks.length - 1;
+        const options: any = {
+            content: chunks[i],
+        };
 
-                if (i === messages.length - 1 && files && files.length > 0) {
-                    // Attach files to the last message chunk
-                    options.files = files;
-                }
-
-                const m = await channel.send(options);
-                sentMessages.push(m);
-            }
+        if (replyTo) {
+            options.reply = { messageReference: replyTo };
         }
-    } catch (error) {
-        elizaLogger.error("Error sending message:", error);
+
+        // Handle file paths for attachments
+        if (isLastChunk && files?.length) {
+            options.files = files.map((file) => {
+                if (file.startsWith("/media/")) {
+                    return process.cwd() + "/agent" + file;
+                }
+                return file;
+            });
+        }
+
+        const message = await channel.send(options);
+        messages.push(message);
     }
 
-    return sentMessages;
+    return messages;
 }
 
 function splitMessage(content: string): string[] {

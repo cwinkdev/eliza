@@ -16,7 +16,8 @@
         }
     },
     "files": [
-        "dist"
+        "dist",
+        "src"
     ],
     "dependencies": {
         "@electric-sql/pglite": "^0.2.15",

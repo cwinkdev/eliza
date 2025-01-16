@@ -11,7 +11,6 @@
         "lint": "eslint ."
     },
     "dependencies": {
-        "@elizaos/core": "workspace:*",
         "@radix-ui/react-avatar": "^1.1.2",
         "@radix-ui/react-collapsible": "^1.1.2",
         "@radix-ui/react-dialog": "^1.1.4",
@@ -39,6 +38,7 @@
         "vite-plugin-compression": "^0.5.1"
     },
     "devDependencies": {
+        "@elizaos/core": "workspace:*",
         "@eslint/js": "^9.17.0",
         "@types/node": "^22.10.5",
         "@types/react": "^19.0.3",

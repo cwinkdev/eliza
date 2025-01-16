@@ -15,7 +15,7 @@ import { validateImageGenConfig } from "./environment";
 
 export function saveBase64Image(base64Data: string, filename: string): string {
     // Create generatedImages directory if it doesn't exist
-    const imageDir = path.join(process.cwd(), "generatedImages");
+    const imageDir = path.join(process.cwd(), "media/generated");
     if (!fs.existsSync(imageDir)) {
         fs.mkdirSync(imageDir, { recursive: true });
     }
@@ -26,20 +26,26 @@ export function saveBase64Image(base64Data: string, filename: string): string {
     // Create a buffer from the base64 string
     const imageBuffer = Buffer.from(base64Image, "base64");
 
-    // Create full file path
+    // Create full file path for saving
     const filepath = path.join(imageDir, `${filename}.png`);
 
     // Save the file
     fs.writeFileSync(filepath, imageBuffer);
 
-    return filepath;
+    // Log the save location and returned path
+    elizaLogger.log("Image saved to:", filepath);
+    const webPath = `/media/generated/${filename}.png`;
+    elizaLogger.log("Returning web path:", webPath);
+
+    // Return web-friendly path
+    return webPath;
 }
 
 export async function saveHeuristImage(
     imageUrl: string,
     filename: string
 ): Promise<string> {
-    const imageDir = path.join(process.cwd(), "generatedImages");
+    const imageDir = path.join(process.cwd(), "media/generated");
     if (!fs.existsSync(imageDir)) {
         fs.mkdirSync(imageDir, { recursive: true });
     }
@@ -53,13 +59,19 @@ export async function saveHeuristImage(
     const arrayBuffer = await response.arrayBuffer();
     const imageBuffer = Buffer.from(arrayBuffer);
 
-    // Create full file path
+    // Create full file path for saving
     const filepath = path.join(imageDir, `${filename}.png`);
 
     // Save the file
     fs.writeFileSync(filepath, imageBuffer);
 
-    return filepath;
+    // Log the save location and returned path
+    elizaLogger.log("Image saved to:", filepath);
+    const webPath = `/media/generated/${filename}.png`;
+    elizaLogger.log("Returning web path:", webPath);
+
+    // Return web-friendly path
+    return webPath;
 }
 
 const imageGeneration: Action = {

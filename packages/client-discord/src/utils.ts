@@ -106,7 +106,7 @@ export async function sendMessageInChunks(
         // Handle file paths for attachments
         if (isLastChunk && files?.length) {
             options.files = files.map((file) => {
-                if (file.startsWith("/media/")) {
+                if (typeof file === "string" && file.startsWith("/media/")) {
                     return process.cwd() + "/agent" + file;
                 }
                 return file;

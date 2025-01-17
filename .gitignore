@@ -1,61 +1,65 @@
-node_modules
-/out
+# Dependencies
+node_modules/
+.pnpm-store/
+.turbo/
 
-.env
-.env.production
-.env.local
-.env_main
-concatenated-output.ts
-embedding-cache.json
-packages/plugin-buttplug/intiface-engine
-
-.idea
-.DS_Store
-
+# Build outputs
 dist/
-# Allow models directory but ignore model files
-models/*.gguf
-pgLite/
-
-cookies.json
-
-db.sqlite
-searches/
-tweets/
-
-*.gguf
-*.onnx
-*.wav
-*.mp3
-
-logs/
-
+out/
+*.bundled_*.mjs
+coverage/
 test-report.json
-content_cache/
-test_data/
+
+# Environment and secrets
+.env*
+!.env.example
+cookies.json
+twitter_cookies.json
+
+# Database and caches
+*.sqlite
+db.sqlite
+embedding-cache.json
 tokencache/
 tweetcache/
-twitter_cookies.json
 timeline_cache.json
-
-*.sqlite
-
-packages/core/src/providers/cache
-packages/core/src/providers/cache/*
-cache/*
-packages/plugin-coinbase/src/plugins/transactions.csv
-
-tsup.config.bundled_*.mjs
-
-.turbo
-.cursorrules
-.pnpm-store
-
-coverage
 .eslintcache
+packages/core/src/providers/cache/
+cache/
+content_cache/
 
-agent/content
+# Debug and generated content
+packages/debug_audio/**/*.wav
+packages/debug_audio/**/*.mp3
+!packages/debug_audio/.gitkeep
+agent/content/
+packages/content_cache/
 
+# Models and large files
+models/*.gguf
+*.gguf
+*.onnx
+
+# IDE and system files
+.idea/
+.DS_Store
+.cursorrules
+
+# Logs and temporary files
+logs/
+*.log
+test_data/
+
+# Specific generated files
+concatenated-output.ts
+packages/plugin-coinbase/src/plugins/transactions.csv
 eliza.manifest
 eliza.manifest.sgx
 eliza.sig
+
+# PGLite
+pgLite/
+
+# Keep source files
+!packages/client-discord/src/**
+!packages/*/src/**
